@@ -17,12 +17,11 @@ a = Analysis(['Medidor_de_lag.py'],
              win_private_assemblies=False,
              cipher=block_cipher,
              noarchive=False)
+pyz = PYZ(a.pure, a.zipped_data,
+             cipher=block_cipher)
 a.datas += [("./Google.png", "Google.png", "DATA")]
 a.datas += [("./Discord.png", "Discord.png", "DATA")]
 a.datas += [("./lol.png", "lol.png", "DATA")]
-pyz = PYZ(a.pure, a.zipped_data,
-             cipher=block_cipher)
-
 exe = EXE(pyz,
           a.scripts,
           a.binaries,
