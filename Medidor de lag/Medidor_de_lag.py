@@ -12,11 +12,9 @@ def resolver_ruta(ruta_relativa):
 
 ventana = Tk()
 ventana.title("Medidor de lag")
-medida = "360x280"
+medida = "320x280"
 ventana.geometry(medida)
-#ventana.resizable(False, False)
-
-ventana.overrideredirect(True)
+ventana.resizable(False, False)
 
 color = "gray10"
 
@@ -26,17 +24,14 @@ Myframe = Frame(ventana,bg=color)
 
 Myframe.pack(fill="both",expand=True)
 
-def move(event):
-    ventana.geometry('+{0}+{1}'.format(event.x_root,event.y_root))
 
 def executeSomething(link):
         resultado=ping(link, unit='ms')
-        print(resultado)
 
         if resultado == None:
             text = resultado
         else :
-            text= str(int(resultado)) +"ms."
+            text= str(round(resultado,2)) +"ms."
 
         return text
 
@@ -78,29 +73,25 @@ fontStyle = tkFont.Font(family="Lucida Grande", size=20)
 
 title = Label(Myframe,text="Medidor de Lag",bg=color,fg="lime", font=fontStyle)
 title.grid(row=0, column=0,columnspan=2)
-Myframe.bind("<B1-Motion>",move)
-
-close_button = Button(Myframe,text="   x   ",command=ventana.destroy,bg=color, fg=color_fuente)
-close_button.grid(row=0, column=2)
 
 label0 = Label(Myframe, text="Modo: Manual",bg=color, font=fontStyle, fg=color_fuente)
 label0.grid(padx=5,row=1, column=0,columnspan=2)
 
-photo = PhotoImage(file =resolver_ruta('Google.png'))
+photo = PhotoImage(file=resolver_ruta('Google.png'))
 canvas = Label(Myframe,image=photo,bg=color)
 canvas.grid(row=2, column=0)
 
 label = Label(Myframe, text=executeSomething("www.google.com"),bg=color, font=fontStyle, fg=color_fuente)
 label.grid(row=2, column=1)
 
-photo2 = PhotoImage(file =resolver_ruta('lol.png'))
+photo2 = PhotoImage(file=resolver_ruta('lol.png'))
 canvas2 = Label(Myframe,image=photo2,bg=color)
 canvas2.grid(row=3, column=0)
 
 label2 = Label(Myframe, text=executeSomething("4.2.2.2"),bg=color, font=fontStyle, fg=color_fuente)
 label2.grid(row=3, column=1)
 
-photo3 = PhotoImage(file =resolver_ruta('Discord.png'))
+photo3 = PhotoImage(file=resolver_ruta('Discord.png'))
 canvas3 = Label(Myframe,image=photo3,bg=color)
 canvas3.grid(row=4, column=0)
 
