@@ -12,9 +12,10 @@ def resolver_ruta(ruta_relativa):
 
 ventana = Tk()
 ventana.title("Medidor de lag")
-medida = "320x280"
+medida = "320x230"
 ventana.geometry(medida)
 ventana.resizable(False, False)
+ventana.wm_attributes("-topmost", 1)
 
 color = "gray10"
 
@@ -26,29 +27,69 @@ Myframe.pack(fill="both",expand=True)
 
 
 def executeSomething(link):
+
         resultado=ping(link, unit='ms')
 
         if resultado == None:
-            text = resultado
-        else :
-            text= str(round(resultado,2)) +"ms."
+            entrega = resultado
+        
+        try:
+            text= round(resultado,2) 
+        except:
+            text=0
 
-        return text
+        entrega = str(text)+" ms."
+
+        if text <= 60 :
+            color_new = "green2"
+            return entrega,color_new
+        if text >= 80 :
+            color_new = "red2"
+            return entrega,color_new
+        else :
+            return entrega,color_fuente
 
 def ejecutaScript():
     for i in range(120):
-        label.configure(text=executeSomething("www.google.com"))
-        
-        label2.configure(text=executeSomething("4.2.2.2"))  
-        
-        label3.configure(text=executeSomething("162.159.138.23")) 
+
+        new1=executeSomething("www.google.com")
+        texto1=new1[0]
+        color1=new1[1]
+
+        new2=executeSomething("4.2.2.2")
+        texto2=new2[0]
+        color2=new2[1]
+
+        new3=executeSomething("162.159.138.23")
+
+        texto3=new3[0]
+        color3=new3[1]
+
+        label.configure(text=texto1,fg=color1)
+        label2.configure(text=texto2,fg=color2)  
+        label3.configure(text=texto3,fg=color3) 
+
         time.sleep(1)
+
     button2.configure(state=ACTIVE)
 
 def changeText():
-        label.configure(text=executeSomething("www.google.com"))
-        label2.configure(text=executeSomething("4.2.2.2"))  
-        label3.configure(text=executeSomething("162.159.138.23")) 
+        new1=executeSomething("www.google.com")
+        texto1=new1[0]
+        color1=new1[1]
+
+        new2=executeSomething("4.2.2.2")
+        texto2=new2[0]
+        color2=new2[1]
+
+        new3=executeSomething("162.159.138.23")
+
+        texto3=new3[0]
+        color3=new3[1]
+
+        label.configure(text=texto1,fg=color1)
+        label2.configure(text=texto2,fg=color2)  
+        label3.configure(text=texto3,fg=color3) 
 
 def Mostrar():
         button.configure(state=DISABLED)
@@ -71,8 +112,6 @@ def MostrarReves():
 
 fontStyle = tkFont.Font(family="Lucida Grande", size=20)
 
-title = Label(Myframe,text="Medidor de Lag",bg=color,fg="lime", font=fontStyle)
-title.grid(row=0, column=0,columnspan=2)
 
 label0 = Label(Myframe, text="Modo: Manual",bg=color, font=fontStyle, fg=color_fuente)
 label0.grid(padx=5,row=1, column=0,columnspan=2)
@@ -81,21 +120,33 @@ photo = PhotoImage(file=resolver_ruta('Google.png'))
 canvas = Label(Myframe,image=photo,bg=color)
 canvas.grid(row=2, column=0)
 
-label = Label(Myframe, text=executeSomething("www.google.com"),bg=color, font=fontStyle, fg=color_fuente)
+var = executeSomething("www.google.com")
+texto1=var[0]
+color1=var[1]
+
+label = Label(Myframe, text=texto1,bg=color, font=fontStyle, fg=color1)
 label.grid(row=2, column=1)
 
 photo2 = PhotoImage(file=resolver_ruta('lol.png'))
 canvas2 = Label(Myframe,image=photo2,bg=color)
 canvas2.grid(row=3, column=0)
 
-label2 = Label(Myframe, text=executeSomething("4.2.2.2"),bg=color, font=fontStyle, fg=color_fuente)
+var = executeSomething("4.2.2.2")
+texto2=var[0]
+color2=var[1]
+
+label2 = Label(Myframe, text=texto2,bg=color, font=fontStyle, fg=color2)
 label2.grid(row=3, column=1)
 
 photo3 = PhotoImage(file=resolver_ruta('Discord.png'))
 canvas3 = Label(Myframe,image=photo3,bg=color)
 canvas3.grid(row=4, column=0)
 
-label3 = Label(Myframe, text=executeSomething("162.159.138.23"),bg=color, font=fontStyle, fg=color_fuente)
+var = executeSomething("162.159.138.23")
+texto3=var[0]
+color3=var[1]
+
+label3 = Label(Myframe, text=texto3,bg=color, font=fontStyle, fg=color3)
 label3.grid(row=4, column=1)
 
 button = Button(Myframe, text="Actualizar",width=17,command=changeText,bg=color, fg=color_fuente)
