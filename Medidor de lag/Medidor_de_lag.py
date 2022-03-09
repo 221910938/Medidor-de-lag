@@ -1,9 +1,10 @@
 from tkinter import * 
 import tkinter.font as tkFont
-from ping3 import ping , verbose_ping
-import sched, time, threading
-from PIL import Image,ImageTk
+from ping3 import ping
+import time, threading
 import os, sys
+import json
+from datetime import datetime
 
 def resolver_ruta(ruta_relativa):
     if hasattr(sys, '_MEIPASS'):
@@ -12,19 +13,35 @@ def resolver_ruta(ruta_relativa):
 
 ventana = Tk()
 ventana.title("Medidor de lag")
-medida = "320x230"
+medida = "320x530"
 ventana.geometry(medida)
 ventana.resizable(False, False)
 ventana.wm_attributes("-topmost", 1)
 
 color = "gray10"
-
 color_fuente = "gray99"
 
 Myframe = Frame(ventana,bg=color)
-
 Myframe.pack(fill="both",expand=True)
 
+fileName = "./Resources/Data.json"
+
+def TransformToJson(Aplicacion,Ping):
+    now = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+
+    jsonObject = {
+        "Fecha": now,
+        "Aplicacion": Aplicacion,
+        "Ping": Ping
+    }
+
+    newjson = jsonObject
+
+    print(newjson)
+
+    file = open(fileName, "w")
+    json.dump(jsonObject, file)
+    file.close()
 
 def executeSomething(link):
 
@@ -34,11 +51,24 @@ def executeSomething(link):
             entrega = resultado
         
         try:
-            text= round(resultado,2) 
+            text= round(resultado) 
         except:
             text=0
 
         entrega = str(text)+" ms."
+
+
+
+        if link == "www.google.com":
+            TransformToJson("Google",text)
+
+        if link == "4.2.2.2":
+            TransformToJson("Lol",text)
+
+        if link == "162.159.138.23":
+            TransformToJson("Discord",text)
+
+
 
         if text <= 60 :
             color_new = "green2"
@@ -47,7 +77,8 @@ def executeSomething(link):
             color_new = "red2"
             return entrega,color_new
         else :
-            return entrega,color_fuente
+            color_new = "yellow"
+            return entrega,color_new
 
 def ejecutaScript():
     for i in range(120):
@@ -159,6 +190,5 @@ button2 = Button(Myframe, text="Cambiar Modo: Manual",command=MostrarReves,bg=co
 button2.grid(row=5,column=1)
 
 button2.grid_forget()
-       
 
 ventana.mainloop()
